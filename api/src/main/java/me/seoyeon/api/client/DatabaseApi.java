@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import me.seoyeon.api.dto.NotionDBPageSearchRequest;
+import java.util.Map;
 import me.seoyeon.api.client.dto.DatabaseQueryResponse;
+import me.seoyeon.api.converter.NotionFilterConverter;
+import me.seoyeon.api.dto.PageFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,10 +25,17 @@ public class DatabaseApi {
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
-  public DatabaseQueryResponse query(String databaseId, NotionDBPageSearchRequest request) {
+  public DatabaseQueryResponse query(String databaseId, PageFilter filter) {
     String path = "/databases/" + databaseId + "/query";
-    // TODO request -> Notion API 검색 요청 형식으로 변환 필요
-    NotionBasicRequest notionQuery = NotionBasicRequest.of("POST", path, null);
+    // request -> Notion API 검색 요청 형식으로 변환 필요
+    Map<String, Object> converted = NotionFilterConverter.convert(filter);
+    String body;
+    try {
+      body = objectMapper.writeValueAsString(converted);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
+    NotionBasicRequest notionQuery = NotionBasicRequest.of("POST", path, body);
     String result = executor.execute(notionQuery);
     // Notion API 응답 그대로 파싱 (Raw)
     try {
@@ -37,5 +46,3 @@ public class DatabaseApi {
     }
   }
 }
-//https://www.notion.so/204c3be34a4680a2afd4ea966fdfbf83?v=204c3be34a4680e59f09000c2c1c5c61&source=copy_link
-//https://www.notion.so/1fdc3be34a468055b88ce93ed3c8b85e?v=1fdc3be34a468028be63000c58036ca4&source=copy_link

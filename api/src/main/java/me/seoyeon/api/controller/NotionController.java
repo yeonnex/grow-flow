@@ -1,8 +1,7 @@
 package me.seoyeon.api.controller;
 
-import me.seoyeon.api.dto.NotionDBPageSearchRequest;
 import me.seoyeon.api.dto.NotionDatabasePageResponse;
-import me.seoyeon.api.dto.NotionSearchRequest;
+import me.seoyeon.api.dto.PageFilter;
 import me.seoyeon.api.service.NotionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +18,8 @@ public class NotionController {
 
   @PostMapping("/notion/databases/{databaseId}/query")
   ResponseEntity<NotionDatabasePageResponse> queryDBPages(
-      @PathVariable String databaseId, @RequestBody NotionDBPageSearchRequest request) {
-    NotionDatabasePageResponse notionDatabaseQueryResponse =
-        notionService.queryDBPages(databaseId, request);
+      @PathVariable String databaseId, @RequestBody PageFilter request) {
+    NotionDatabasePageResponse notionDatabaseQueryResponse = notionService.queryDBPages(databaseId, request);
     return ResponseEntity.ok(notionDatabaseQueryResponse);
   }
 }
