@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 public class NotionClient {
 
   private final DatabaseApi databases;
+  private final BlockApi blocks;
   private final NotionHttpExecutor notionHttpExecutor;
 
   public NotionClient(NotionHttpExecutor notionHttpExecutor) {

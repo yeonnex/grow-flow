@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import me.seoyeon.api.exception.ErrorCode;
 import me.seoyeon.api.exception.NotionApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +67,7 @@ public class DefaultNotionHttpExecutor implements NotionHttpExecutor {
         String errorMessage =
             "Notion API 호출 정상 응답 실패: status = %d, body=%s"
                 .formatted(response.statusCode(), response.body());
-        throw new NotionApiException(errorMessage);
+        throw new NotionApiException(ErrorCode.NOTION_API_CALL_FAILED);
       }
     } catch (Exception e) {
       throw new RuntimeException(e);

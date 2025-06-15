@@ -3,16 +3,16 @@ package me.seoyeon.api.service;
 import java.util.List;
 import me.seoyeon.api.client.NotionClient;
 import me.seoyeon.api.client.dto.DatabaseQueryResponse;
-import me.seoyeon.api.dto.PageFilter;
 import me.seoyeon.api.dto.NotionDatabasePageResponse;
+import me.seoyeon.api.dto.PageFilter;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NotionService {
+public class NotionDatabaseService {
 
   private final NotionClient notionClient;
 
-  public NotionService(NotionClient notionClient) {
+  public NotionDatabaseService(NotionClient notionClient) {
     this.notionClient = notionClient;
   }
 
