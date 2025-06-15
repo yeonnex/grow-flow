@@ -1,17 +1,22 @@
 package me.seoyeon.api.client;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BlockApi {
   private final Logger logger = LoggerFactory.getLogger(BlockApi.class);
   private final NotionHttpExecutor executor;
   private final ObjectMapper objectMapper;
 
-  public BlockApi(NotionHttpExecutor executor, ObjectMapper objectMapper) {
+  public BlockApi(NotionHttpExecutor executor) {
     this.executor = executor;
-    this.objectMapper = objectMapper;
+    this.objectMapper =
+        new ObjectMapper()
+            .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
   /**

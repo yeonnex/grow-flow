@@ -12,6 +12,7 @@ public class NotionClient {
   public NotionClient(NotionHttpExecutor notionHttpExecutor) {
     this.notionHttpExecutor = notionHttpExecutor;
     this.databases = new DatabaseApi(notionHttpExecutor);
+    this.blocks = new BlockApi(notionHttpExecutor);
   }
 
   public DatabaseApi databases() {
